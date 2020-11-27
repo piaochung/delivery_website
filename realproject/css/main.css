@@ -14,7 +14,7 @@ a {
   min-width: 1100px;
 }
 
-/*Header*/
+/*Header
 .header {
   height: 80px;
   line-height: 80px;
@@ -59,7 +59,7 @@ a {
   height: 0.5px;
   position: absolute;
   background: #888;
-  bottom: 30px;
+  bottom: -3px;
   left: 50%;
   transform: translateX(-50%);
   transition: all 0.5s;
@@ -68,6 +68,7 @@ a {
 .header_menu li a:hover:after {
   width: 100%;
 }
+*/
 
 /*About*/
 .about_wrap {
@@ -283,16 +284,6 @@ ul li .copyright {
   animation-iteration-count: infinite;
 }
 
-@keyframes slid-up {
-  0% {
-    opacity: 0.6;
-  }
-  40% {
-    opacity: 1;
-    transform: translateY(-3px);
-  }
-}
-
 @keyframes slid-up-down {
   0% {
     opacity: 1;
@@ -307,6 +298,16 @@ ul li .copyright {
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes slid-up {
+  0% {
+    opacity: 0.6;
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
   }
 }
 

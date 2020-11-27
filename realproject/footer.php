@@ -1,9 +1,9 @@
 
     <ul class="sns">
-        <li><a href="#"><img src="img/instagram.png" alt=""></a></li>
-        <li><a href="#"><img src="img/facebook.png" alt=""></a></li>
-        <li><a href="#"><img src="img/youtube.png" alt=""></a></li>
-        <li><a href="#"><img src="img/blog.png" alt=""></a></li>
+        <li><a href="#"><img src=".img/instagram.png" alt=""></a></li>
+        <li><a href="#"><img src=".img/facebook.png" alt=""></a></li>
+        <li><a href="#"><img src=".img/youtube.png" alt=""></a></li>
+        <li><a href="#"><img src=".img/blog.png" alt=""></a></li>
     </ul>
     
     <h2 class="footerLogo">Privacy</h2>

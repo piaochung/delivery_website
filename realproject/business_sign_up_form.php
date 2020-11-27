@@ -3,8 +3,10 @@
 <head> 
 <meta charset="utf-8">
 <title>PHP 프로그래밍 입문</title>
-<link rel="stylesheet" type="text/css" href="./css/common.css">
-<link rel="stylesheet" type="text/css" href="./css/member.css">
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/member.css">
+<link rel="stylesheet" href="css/footer.css">
+
 <script>
    function check_input()
    {
@@ -83,14 +85,9 @@
     	<?php include "header.php";?>
     </header>
 	<section>
-		<div id="main_img_bar">
-            <img src="./img/main_img.png">
-        </div>
         <div id="main_content">
       		<div id="join_box">
           	<form  name="member_form" method="post" action="business_sign_up_insert.php">
-			    <h2>회원 가입</h2>
-    		    
 			       	<div class="clear"></div>
                        <div class="form">
 				        <div class="col1">사업자 번호</div>
@@ -98,7 +95,7 @@
 							<input type="text" name="business_number" maxlength="10">
 				        </div> 
                         <div class="col3">
-				        	<a href="#"><img src="./img/check_id.gif" 
+				        	<a href="#"><img src="./img/signup/confirm_id_button.png" 
 				        		onclick="check_id()"></a>
 				        </div>                     
 			       	</div>
@@ -138,8 +135,8 @@
                        <div class="clear"></div>
 			       	<div class="bottom_line"> </div>
 			       	<div class="buttons">
-	                	<img style="cursor:pointer" src="./img/button_save.gif" onclick="check_input()">&nbsp;
-                  		<img id="reset_button" style="cursor:pointer" src="./img/button_reset.gif"
+	                	<img style="cursor:pointer" src="./img/signup/create_account_button.png" onclick="check_input()">&nbsp;
+                  		<img id="reset_button" style="cursor:pointer" src="./img/signup/reset_button.png"
                   			onclick="reset_form()">
 	           		</div>
            	</form>
