@@ -8,9 +8,14 @@
 <script>
    function check_input()
    {
-      if (!document.member_form.id.value) {
-          alert("아이디를 입력하세요!");    
-          document.member_form.id.focus();
+      if(!document.member_form.business_number.value) {
+          alert("사업자 번호를 입력하세요!");
+          document.member_form.business_number.focus();
+          return;
+      }
+
+      if(document.member_form.business_number.value.length < 10){
+          alert("사업자 번호가 짧다.");
           return;
       }
 
@@ -56,18 +61,18 @@
    }
 
    function reset_form() {
-      document.member_form.id.value = "";  
+      document.member_form.business_number.value = "";
       document.member_form.pass.value = "";
       document.member_form.pass_confirm.value = "";
       document.member_form.name.value = "";
       document.member_form.email1.value = "";
       document.member_form.email2.value = "";
-      document.member_form.id.focus();
+      document.member_form.business_number.focus();
       return;
    }
 
    function check_id() {
-     window.open("sign_up_check_id.php?id=" + document.member_form.id.value,
+     window.open("business_sign_up_check_business_number.php?business_number=" + document.member_form.business_number.value,
          "IDcheck",
           "left=700,top=300,width=350,height=200,scrollbars=no,resizable=yes");
    }
@@ -83,20 +88,20 @@
         </div>
         <div id="main_content">
       		<div id="join_box">
-          	<form  name="member_form" method="post" action="customer_sign_up_insert.php">
+          	<form  name="member_form" method="post" action="business_sign_up_insert.php">
 			    <h2>회원 가입</h2>
-    		    	<div class="form id">
-				        <div class="col1">아이디</div>
+    		    
+			       	<div class="clear"></div>
+                       <div class="form">
+				        <div class="col1">사업자 번호</div>
 				        <div class="col2">
-							<input type="text" name="id">
-				        </div>  
-				        <div class="col3">
+							<input type="text" name="business_number" maxlength="10">
+				        </div> 
+                        <div class="col3">
 				        	<a href="#"><img src="./img/check_id.gif" 
 				        		onclick="check_id()"></a>
-				        </div>                 
+				        </div>                     
 			       	</div>
-			       	<div class="clear"></div>
-
 			       	<div class="form">
 				        <div class="col1">비밀번호</div>
 				        <div class="col2">
@@ -131,12 +136,6 @@
 				        </div>                 
 			       	</div>
                        <div class="clear"></div>
-                       <div class="form">
-				        <div class="col1">사업자 번호</div>
-				        <div class="col2">
-							<input type="text" name="business_number">
-				        </div>                 
-			       	</div>
 			       	<div class="bottom_line"> </div>
 			       	<div class="buttons">
 	                	<img style="cursor:pointer" src="./img/button_save.gif" onclick="check_input()">&nbsp;

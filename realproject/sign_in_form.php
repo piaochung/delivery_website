@@ -41,8 +41,8 @@
 	    		<div id="login_form">
           		<form  name="login_form" method="post" action="sign_in.php">		       	
                   	<ul>
-                    <li><input type="text" name="id" placeholder="아이디" ></li>
-                    <li><input type="password" id="pass" name="pass" placeholder="비밀번호" ></li> <!-- pass -->
+                        <li><input type="text" name="id" placeholder="아이디" ></li>
+                        <li><input type="password" id="pass" name="pass" placeholder="비밀번호" ></li> <!-- pass -->
                   	</ul>
                   	<div id="login_btn">
                       	<a href="#"><img src="./img/login.png" onclick="check_input()"></a>

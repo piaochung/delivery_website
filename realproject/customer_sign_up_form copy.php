@@ -66,7 +66,7 @@
    }
 
    function check_id() {
-     window.open("sign_up_check_id.php?id=" + document.member_form.id.value,
+     window.open("customer_sign_up_check_id.php?id=" + document.member_form.id.value,
          "IDcheck",
           "left=700,top=300,width=350,height=200,scrollbars=no,resizable=yes");
    }

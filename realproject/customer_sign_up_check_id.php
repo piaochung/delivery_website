@@ -28,7 +28,7 @@ h3 {
       $con = mysqli_connect("localhost", "root", "", "project");
 
  
-      $sql = "select * from members where id='$id'";
+      $sql = "select * from customer_members where id='$id'";
       $result = mysqli_query($con, $sql);
 
       $num_record = mysqli_num_rows($result);

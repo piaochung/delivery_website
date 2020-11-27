@@ -1,5 +1,5 @@
 <?php
-    $id   = $_POST["id"];
+    $business = $_POST["business_number"];
     $pass = $_POST["pass"];
     $name = $_POST["name"];
     $email1  = $_POST["email1"];
@@ -10,8 +10,8 @@
 
     $con = mysqli_connect("localhost", "root", "", "project");
 
-	$sql = "insert into customer_members(id, pass, name, email, regist_day, level, point) ";
-	$sql .= "values('$id', '$pass', '$name', '$email', '$regist_day', 0, 0)";
+	$sql = "insert into business_members(business_number, pass, name, email, regist_day) ";
+	$sql .= "values('$business', '$pass', '$name', '$email', '$regist_day')";
 
 	mysqli_query($con, $sql);  // $sql 에 저장된 명령 실행
     mysqli_close($con);     
