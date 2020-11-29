@@ -3,9 +3,14 @@
     $business = $_POST["business_number"];
     $motto = $_POST["motto"];
 
-    $regist_day = date("Y-m-d (H:i)");  // 현재의 '년-월-일-시-분'을 저장
+    $regist_day = date("Y-m-d (H:i)");
 
-	$upload_dir = './data/';
+	$upload_dir = "./data/$business/";
+
+	//파일 디렉토리가 존재하지 않을 때 디렉토리 생성
+	if(!is_dir($upload_dir)){
+		mkdir($upload_dir);
+	}
 
 	$upfile_name	 = $_FILES["upfile"]["name"];
 	$upfile_tmp_name = $_FILES["upfile"]["tmp_name"];
@@ -20,7 +25,7 @@
 		$file_ext  = $file[1];
 
 		$new_file_name = date("Y_m_d_H_i_s");
-		$new_file_name = $new_file_name;
+		$new_file_name = $business + $new_file_name;
 		$copied_file_name = $new_file_name.".".$file_ext;      
 		$uploaded_file = $upload_dir.$copied_file_name;
 
@@ -58,7 +63,7 @@
     $sql .= "values('$business', '$motto', '$regist_day', 0, ";
     $sql .= "'$upfile_name', '$upfile_type', '$copied_file_name')";
 
-	mysqli_query($con, $sql);  // $sql 에 저장된 명령 실행
+	mysqli_query($con, $sql);
     mysqli_close($con);     
 
     echo "

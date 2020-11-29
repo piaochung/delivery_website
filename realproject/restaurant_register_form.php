@@ -36,13 +36,24 @@
     <div class="container">
       <b>브랜드 이미지 설정</b>
       <br />
-      <input type="file" name="upfile">
+      <input type="file" name="upfile" />
       <br />
       <div class="padding_bottom"></div>
       <b>사장님의 다짐</b>
       <hr />
-      <input class="tesxtares" type="text" name="motto" cols="100" rows="10"></input>
+      <input class="tesxtares" type="text" name="motto"/>
       <br />
+      <b>최소 주문 금액</b>
+      <hr />
+      <input type="text" name="minimum_order_amount"/>
+      <br />
+      <b>배달 팁</b>
+      <hr />
+      <input type="text" name="delivery_tips"/>
+      <br />
+      <!--메뉴 추가 부분-->
+      <div id="addedKeyword"></div>
+      <img src="./img/signup/reset_button.png" onclick= "addMenuForm()"/>
       <?php echo "<input type='hidden' name='business_number' value='$businessnum'>" ?>
     </div>
 
@@ -52,5 +63,6 @@
     </div>
   </form>
 </div>
+<script src='restaurant_register.js'></script>
 </body>
 </html>
