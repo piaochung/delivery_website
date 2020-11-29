@@ -6,6 +6,9 @@
     if (isset($_SESSION["business_number"])) $businessnum = $_SESSION["business_number"];
     else $businessnum = "";
     
+    echo "<h1>$businessnum</h1>";
+    echo "<h1>$userid</h1>";
+
     if (isset($_SESSION["username"])) $username = $_SESSION["username"];
     else $username = "";
 ?>
@@ -19,7 +22,7 @@
             <?php
                 if(!$userid){ // 사장님
             ?>
-            <li><a href="restaurant.php">가게 가기</a></li>
+            <li><a href="restaurant_register_form.php">가게 가기</a></li>
             <?php
                 } else {
             ?>

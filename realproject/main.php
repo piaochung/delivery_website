@@ -5,6 +5,7 @@
     <title>¤ Righteous</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/modal.css">
 </head>
 <body>
      <!--Header-->
@@ -46,17 +47,51 @@
         <section id="portfolio">
             <div class="portfolio_wrap">
                 <div class="portfolio_box">
-                    <h3>메뉴 소개</h3>
+                <h3>메뉴 소개</h3>
                 </div>
                 <div class="columns">
+                    <?php 
+                        $con = mysqli_connect("localhost", "root", "", "project");
+                        $sql = "select * from restaurant order by order_number desc";
+
+                        $result = mysqli_query($con, $sql);
+                        $total_record = mysqli_num_rows($result); // 전체 글 수
+                        
+                        for($i=0; $i < $total_record; $i++){
+                            mysqli_data_seek($result, $i);
+                            // 가져올 레코드로 위치(포인터) 이동
+                            $row = mysqli_fetch_array($result);
+                        
+                            $motto = $row["motto"];
+                            $business_number = $row["business_number"];
+                            $order_number = $row["order_number"];
+                            $file_copied = $row["file_copied"];
+
+                            if ($row["file_name"])
+                                $file_image = "<img src='./data/$file_copied'>";
+                            else
+                                $file_image = " ";
+
+                            ?>
+                            <figure>
+                                <form action="order.php" method="post" name="order_form">
+                                    <?=$file_image?>
+                                    <input name="business" type="hidden" value="<?=$business_number?>">
+                                    <figcaption><?=$motto?></figcaption>
+                                    <div class="middle">
+                                        <button type="submit">주문하기</button>
+                                    </div>
+                                </form>
+                            </figure>
+                        <?php
+                        }
+                    ?>
                     <figure>
-                        <a href="restaurant.php">
                             <img src="img/main/1.jpg">
                             <figcaption>먹고자 하면 먹을 것이오 못 먹고자 하면 못 먹을 것이다.</figcaption>
                             <div class="middle">
-                                <div class="text">주문하기</div>
+                                <div class="text" onclick="document.getElementById('id01').style.display='block'">주문하기</div>
                             </div>
-                        </a>
                     </figure>
                     <figure>
                         <a href="restaurant.php">

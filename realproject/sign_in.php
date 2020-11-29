@@ -53,11 +53,15 @@
         else
         {
             session_start();
-            $_SESSION["userid"] = $row["id"];
-            $_SESSION["username"] = $row["name"];
-            $_SESSION["userlevel"] = $row["level"];
-            $_SESSION["userpoint"] = $row["point"];
 
+            if($login == "customer"){
+              $_SESSION["userid"] = $row["id"];
+              $_SESSION["username"] = $row["name"];
+             } 
+             else if($login == "business"){
+              $_SESSION["business_number"] = $row["business_number"];
+             }
+           
             echo("
               <script>
                 location.href = 'main.php';
