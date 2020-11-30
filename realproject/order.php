@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/menu.css">
     <script>
       function onCancelButtonClick(){
         history.go(-1);
@@ -14,29 +15,87 @@
 <body>
 
 <?php 
+  session_start();
+  if (isset($_SESSION["userid"])) $userid = $_SESSION["userid"];
+  else $userid = "";
+
+  if(!$userid) {
+    echo("
+						<script>
+						alert('고객 회원만 주문할 수 있습니다.');
+						history.go(-1)
+						</script>
+				");
+  }
+
   $business = $_POST["business"];
+
+  $con = mysqli_connect("localhost", "root", "", "project");
+  //음식점 데이터 추출(배너 이미지, 최소 주문 금액, 배달팁 정보 가져오기)
+  $sql = "select * from restaurant where business_number='$business'";
+  $result = mysqli_query($con, $sql);
+  $row = mysqli_fetch_array($result);
+  
+  $minimum_order_amount = $row["minimum_order_amount"];
+  $delivery_tips = $row["delivery_tips"];
+  $file_copied = $row["file_copied"];
+  $file_copied = './data/'.$business.'/'.$file_copied;
+  
+  //메뉴 데이터 추출(이미지, 이름, 가격)
+  $sql = "select * from restaurant_menu where business_number='$business' order by num desc";
+  $result = mysqli_query($con, $sql);
+  $total_record = mysqli_num_rows($result);
 ?>
 
 <div id="id01" class="modal">
   <form class="modal-content animate" action="order_insert.php" method="post">
     <div class="imgcontainer">
-      <img src="./img/main/1.jpg" alt="Avatar" class="avatar">
+      <?php
+        echo "<img src='$file_copied' class='avatar'>";
+      ?>
     </div>
 
     <div class="container">
       <b>배달 주문</b>
       <hr />
-      <p>최소주문금액 19,500원</p>
-      <p>결제 방법 바로결제, 만나서결제</p>
+      <p name="minimum_order_amount">최소주문금액 <?=$minimum_order_amount?>원</p>
       <p>배달시간 22~33분 소요</p>
-      <p>배달팁 2,000원</p>
-      <label for="psw"><b>주문하기</b></label>
+      <p name="delivery_tips">배달팁 <?=$delivery_tips?>원</p>
+      <b>주문하기</b>
       <hr />
-      <textarea name="ordertext" id="ordertextarea" cols="100" rows="10"></textarea>
+      <div class="menu_form">
+    <?php 
+     for($i=0; $i < $total_record; $i++){
+        echo "<div class='menu_content'>";
+        mysqli_data_seek($result, $i);
+        $row = mysqli_fetch_array($result);
+    
+        $file_copied = $row["file_copied"];
+        $menu_name = $row["menu_name"];
+        $menu_price = $row["menu_price"];
+
+        if ($row["file_name"])
+            $file_image = "<img class='menu_image' src='./data/$business/menu/$file_copied'>";
+        else
+            $file_image = " ";
+
+
+        echo $file_image;
+        echo "<b>$menu_name</b><b>$menu_price 원 <input class='menu_number' name='menu_count_$i' type='number' /></b>";
+        echo "</div>";
+        echo "<input type='hidden' name='menu_name_$i' value='$menu_name'/>";
+        echo "<input type='hidden' name='menu_price_$i' value='$menu_price'/>";
+      }
+      echo "<input type='hidden' name='total_record' value='$total_record'/>";
+      echo "<input type='hidden' name='business' value='$business'/>";
+      echo "<input type='hidden' name='business' value='$business'/>";
+      mysqli_close($con);
+    ?>
+    </div>
     </div>
 
     <div class="container" style="background-color:#f1f1f1">
-      <button type="button" onclick= onCancelButtonClick()>취소하기</button>
+      <button type="button" onclick= onCancelButtonClick() >취소하기</button>
       <button type="submit">주문하기</button>
     </div>
   </form>

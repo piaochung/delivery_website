@@ -68,7 +68,7 @@
                             $file_copied = $row["file_copied"];
 
                             if ($row["file_name"])
-                                $file_image = "<img src='./data/$file_copied'>";
+                                $file_image = "<img src='./data/$business_number/$file_copied'>";
                             else
                                 $file_image = " ";
 

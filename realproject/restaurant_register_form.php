@@ -16,14 +16,21 @@
     if (isset($_SESSION["business_number"])) $businessnum = $_SESSION["business_number"];
     else $businessnum = "";
 
-    if(!$businessnum){
+    $con = mysqli_connect("localhost", "root", "", "project");
+    //음식점 데이터 추출(배너 이미지, 최소 주문 금액, 배달팁 정보 가져오기)
+    $sql = "select * from restaurant where business_number='$businessnum'";
+    $result = mysqli_query($con, $sql);
+    $row = mysqli_fetch_array($result);
+
+    if(!$businessnum || $row){
       echo("
         <script>
-          alert('사장님만 가게 등록을 이용해 주세요!');
+          alert('사장님 가게는 하나만 등록할 수 있습니다.');
           history.go(-1)
         </script>
       ");
     }
+    mysqli_close($con);//DB 연결 끊기
 ?>
 
 <div id="id01" class="modal" style="display: block">
@@ -54,6 +61,8 @@
       <!--메뉴 추가 부분-->
       <div id="addedKeyword"></div>
       <img src="./img/signup/reset_button.png" onclick= "addMenuForm()"/>
+      <div id="count_check"></div>
+      <img src="./img/signup/reset_button.png" onclick= "addCount()"/>
       <?php echo "<input type='hidden' name='business_number' value='$businessnum'>" ?>
     </div>
 

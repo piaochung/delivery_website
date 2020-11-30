@@ -1,0 +1,10 @@
+.menu_form {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.menu_image {
+  width: 80px;
+}

@@ -1,0 +1,17 @@
+.menu_form {
+  width: 100%;
+}
+
+.menu_content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu_number {
+  width: 50px;
+}
+
+.menu_image {
+  width: 80px;
+}
