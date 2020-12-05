@@ -12,6 +12,23 @@
      <header>
     	<?php include "header.php";?>
     </header>
+
+    <?php 
+        if (isset($_SESSION["userid"])) $userid = $_SESSION["userid"];
+        else $userid = "";
+    
+        if (isset($_SESSION["business_number"])) $businessnum = $_SESSION["business_number"];
+        else $businessnum = "";
+
+        if(!$userid && !$businessnum){
+            echo "
+                <script>
+                    alert('회원가입 후 이용 부탁드립니다.');
+                    location.href = 'sign_in_check_form.php';
+                </script>
+            ";
+    }
+    ?>
  
     <div class="wrap">
         <!--About-->

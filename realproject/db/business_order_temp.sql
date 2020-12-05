@@ -1,7 +1,7 @@
-create table customer_order (
+create table business_order_temp (
     num int not null auto_increment,
-    business_number char(10) not null,
     id char(15) not null,
+    business_number char(10) not null,
     order_number int not null,
     primary key(num)
 );

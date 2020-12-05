@@ -36,7 +36,7 @@
 <div id="id01" class="modal" style="display: block">
   <form class="modal-content animate" action="restaurant_insert.php" method="post" enctype="multipart/form-data">
     <div class="imgcontainer">
-      <h3>사장님 가게 등록</h3>
+      <h1>사장님 가게 등록</h1>
       <hr />
     </div>
 
@@ -60,9 +60,7 @@
       <br />
       <!--메뉴 추가 부분-->
       <div id="addedKeyword"></div>
-      <img src="./img/signup/reset_button.png" onclick= "addMenuForm()"/>
-      <div id="count_check"></div>
-      <img src="./img/signup/reset_button.png" onclick= "addCount()"/>
+      <img src="./img/signup/add_button.png" class="add_button" onclick= "addMenuForm()"/>
       <?php echo "<input type='hidden' name='business_number' value='$businessnum'>" ?>
     </div>
 

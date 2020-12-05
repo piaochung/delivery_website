@@ -33,6 +33,7 @@ h3 {
 
       $num_record = mysqli_num_rows($result);
 
+      setcookie("business_number", time() - 3600);
       if ($num_record)
       {
          echo "<li>".$business." 사업자 번호가 중복됩니다.</li>";
@@ -42,6 +43,7 @@ h3 {
       else
       {
          echo "<li>".$business." 사업자 번호가 사용 가능합니다.</li>";
+         setcookie("business_number", $business, time()+60);
       }
     
       mysqli_close($con);

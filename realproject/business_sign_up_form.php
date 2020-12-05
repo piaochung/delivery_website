@@ -10,56 +10,58 @@
 <script>
    function check_input()
    {
-      if(!document.member_form.business_number.value) {
-          alert("사업자 번호를 입력하세요!");
-          document.member_form.business_number.focus();
-          return;
-      }
+        if(isset($_COOKIE["business_number"])) $business_number = $_COOKIE["business_number"];
+        else $business_number = "";
 
-      if(document.member_form.business_number.value.length < 10){
-          alert("사업자 번호가 짧다.");
-          return;
-      }
+        if(!document.member_form.business_number.value) {
+            alert("사업자 번호를 입력하세요!");
+            document.member_form.business_number.focus();
+            return;
+        }
 
-      if (!document.member_form.pass.value) {
-          alert("비밀번호를 입력하세요!");    
-          document.member_form.pass.focus();
-          return;
-      }
+        if(document.member_form.business_number.value.length < 10){
+            alert("사업자 번호가 짧다.");
+            return;
+        }
 
-      if (!document.member_form.pass_confirm.value) {
-          alert("비밀번호확인을 입력하세요!");    
-          document.member_form.pass_confirm.focus();
-          return;
-      }
+        if (!document.member_form.pass.value) {
+            alert("비밀번호를 입력하세요!");    
+            document.member_form.pass.focus();
+            return;
+        }
 
-      if (!document.member_form.name.value) {
-          alert("이름을 입력하세요!");    
-          document.member_form.name.focus();
-          return;
-      }
+        if (!document.member_form.pass_confirm.value) {
+            alert("비밀번호확인을 입력하세요!");    
+            document.member_form.pass_confirm.focus();
+            return;
+        }
 
-      if (!document.member_form.email1.value) {
-          alert("이메일 주소를 입력하세요!");    
-          document.member_form.email1.focus();
-          return;
-      }
+        if (!document.member_form.name.value) {
+            alert("이름을 입력하세요!");    
+            document.member_form.name.focus();
+            return;
+        }
 
-      if (!document.member_form.email2.value) {
-          alert("이메일 주소를 입력하세요!");    
-          document.member_form.email2.focus();
-          return;
-      }
+        if (!document.member_form.email1.value) {
+            alert("이메일 주소를 입력하세요!");    
+            document.member_form.email1.focus();
+            return;
+        }
 
-      if (document.member_form.pass.value != 
-            document.member_form.pass_confirm.value) {
-          alert("비밀번호가 일치하지 않습니다.\n다시 입력해 주세요!");
-          document.member_form.pass.focus();
-          document.member_form.pass.select();
-          return;
-      }
+        if (!document.member_form.email2.value) {
+            alert("이메일 주소를 입력하세요!");    
+            document.member_form.email2.focus();
+            return;
+        }
 
-      document.member_form.submit();
+        if (document.member_form.pass.value != 
+                document.member_form.pass_confirm.value) {
+            alert("비밀번호가 일치하지 않습니다.\n다시 입력해 주세요!");
+            document.member_form.pass.focus();
+            document.member_form.pass.select();
+            return;
+        }
+        document.member_form.submit();
    }
 
    function reset_form() {
@@ -80,7 +82,7 @@
    }
 </script>
 </head>
-<body> 
+<body>
 	<header>
     	<?php include "header.php";?>
     </header>
@@ -135,9 +137,8 @@
                        <div class="clear"></div>
 			       	<div class="bottom_line"> </div>
 			       	<div class="buttons">
-	                	<img style="cursor:pointer" src="./img/signup/create_account_button.png" onclick="check_input()">&nbsp;
-                  		<img id="reset_button" style="cursor:pointer" src="./img/signup/reset_button.png"
-                  			onclick="reset_form()">
+                       <button type="button" onclick="check_input()">create account</button>
+                       <button type="button" onclick="reset_form()">reset</button>
 	           		</div>
            	</form>
         	</div> <!-- join_box -->

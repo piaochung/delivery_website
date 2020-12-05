@@ -17,21 +17,44 @@
     <a href="#" class="header_logo">¤ Righteous</a>
     <nav>
         <ul class="header_menu">
-            <li><a href="#about">about</a></li>
-            <li><a href="logout.php">logout</a></li>
             <?php
-                if(!$userid){ // 사장님
+                if(!$userid && !$businessnum){
             ?>
-            <li><a href="restaurant_register_form.php">가게 가기</a></li>
+            <li><a href="sign_up_check_form.php">회원 가입</a></li>
             <?php
                 } else {
             ?>
-            <li><a href="#portfolio">주문하러 가기</a></li>    
-            <?php 
-                }
-            ?>
-            <li><a href="https://github.com/piaochung">github</a></li>
-            <li><a href="https://hangjastar.tistory.com/">blog</a></li>
+                 <?php
+                if(!$userid){ // 사장님
+                ?>
+                <li><a href="order_confirm_lately_form.php">최근 배달 내역 확인</a></li>
+                <li><a href="order_complete_form.php">배달 내역</a></li>
+                <?php
+                    } else {
+                ?>
+                <li><a href="order_history_form.php">주문 보류 내역</a></li>
+                <li><a href="order_complete_form.php">주문 완료 내역</a></li>
+                <?php 
+                    }
+                ?>
+                <li><a href="logout.php">로그아웃</a></li>
+                <?php
+                    if(!$userid){ // 사장님
+                ?>
+                <li><a href="restaurant_register_form.php">가게 등록</a></li>
+                <?php
+                    } else {
+                ?>
+                <li><a href="#portfolio">주문하기</a></li>    
+                <?php 
+                    }
+                ?>
+                <?php 
+                    }
+                ?>
+                <li><a href="https://github.com/piaochung">github</a></li>
+                <li><a href="https://hangjastar.tistory.com/">blog</a></li>
+            <!--위에는 테스트입니다.-->
         </ul>
     </nav>
 </div>

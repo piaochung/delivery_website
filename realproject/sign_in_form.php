@@ -56,7 +56,7 @@
                         <li><input type="password" id="pass" name="pass" placeholder="비밀번호" ></li> <!-- pass -->
                   	</ul>
                   	<div id="login_btn">
-                      	<a href="#"><img src="./img/login.png" onclick="check_input()"></a>
+                        <button type="button" onclick="check_input()">Login</button>
                   	</div>		    	
            		</form>
         		</div> <!-- login_form -->

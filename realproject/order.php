@@ -89,7 +89,6 @@
       echo "<input type='hidden' name='total_record' value='$total_record'/>";
       echo "<input type='hidden' name='business' value='$business'/>";
       echo "<input type='hidden' name='business' value='$business'/>";
-      mysqli_close($con);
     ?>
     </div>
     </div>
@@ -98,6 +97,39 @@
       <button type="button" onclick= onCancelButtonClick() >취소하기</button>
       <button type="submit">주문하기</button>
     </div>
+    <?php 
+      //리뷰 정보 알려주는 곳
+      
+      $sql = "select * from comment where business_number='$business' order by regist_day desc";
+      $result = mysqli_query($con, $sql);
+      $total_record = mysqli_num_rows($result);
+      $review_number = 0;
+      
+      if(isset($_GET["review_number"])) {
+        $review_number = $_GET["review_number"];
+        $review_number += 5;
+
+        if($review_number >= $total_record){
+          $total_record = $review_number;
+        }
+      }
+
+      for($i=0; $i < $total_record; $i++){
+        mysqli_data_seek($result, $i);
+        $row = mysqli_fetch_array($result);
+        $review = $row["review"];
+        $id = $row["id"];
+        $regist_day = $row["regist_day"];
+
+        echo "<b>$id 님의 리뷰입니다.</b><span>리뷰 날짜: $regist_day</span><br/>";
+        echo "<b>$review</b><hr />";
+      }
+
+      if($review_number < $total_record) {
+        echo "<li> <a href='order.php?review_number=$review_number'> 리뷰 더 보기</a> </li>";
+      }
+      mysqli_close($con);
+    ?>
   </form>
 </div>
 </body>

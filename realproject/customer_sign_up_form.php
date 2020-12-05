@@ -73,7 +73,7 @@
    }
 </script>
 </head>
-<body> 
+<body>
 	<header>
     	<?php include "header.php";?>
     </header>

@@ -13,7 +13,6 @@ function addMenuForm() {
     } else {
         alert("메뉴는 5개까지 추가할 수 있습니다.");
     }
-
 }
 
 function addCount() {

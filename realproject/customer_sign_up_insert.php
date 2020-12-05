@@ -18,7 +18,7 @@
 
     echo "
 	      <script>
-	          location.href = 'sign_in_form.php';
+	          location.href = 'sign_in_check_form.php';
 	      </script>
 	  ";
 ?>

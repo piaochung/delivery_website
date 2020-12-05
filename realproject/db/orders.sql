@@ -3,9 +3,10 @@ create table orders (
     order_number int,
     id char(15) not null,
     business_number char(10) not null,
+    business_order_number int,
     menu_name char(20) not null,
     menu_count int,
     menu_price int,
     regist_day char(20) not null,
-    primary key number(num)
+    primary key(num)
 );
