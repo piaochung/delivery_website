@@ -16,7 +16,7 @@
 
     $order_number = $row[0];
 
-    $sql = "select business_order_number from orders where business_number='$business' order by order_number desc";
+    $sql = "select business_order_number from orders order by num desc";
     $result = mysqli_query($con, $sql);
     $row = mysqli_fetch_row($result);
 

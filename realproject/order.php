@@ -47,8 +47,8 @@
   $total_record = mysqli_num_rows($result);
 ?>
 
-<div id="id01" class="modal">
-  <form class="modal-content animate" action="order_insert.php" method="post">
+<div class="modal">
+  <form class="modal_content animate" action="order_insert.php" method="post">
     <div class="imgcontainer">
       <?php
         echo "<img src='$file_copied' class='avatar'>";
@@ -110,7 +110,7 @@
         $review_number += 5;
 
         if($review_number >= $total_record){
-          $total_record = $review_number;
+          $review_number = $total_record;
         }
       }
 
@@ -125,7 +125,7 @@
         echo "<b>$review</b><hr />";
       }
 
-      if($review_number < $total_record) {
+      if($review_number > $total_record) {
         echo "<li> <a href='order.php?review_number=$review_number'> 리뷰 더 보기</a> </li>";
       }
       mysqli_close($con);

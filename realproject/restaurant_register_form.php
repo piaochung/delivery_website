@@ -33,8 +33,8 @@
     mysqli_close($con);//DB 연결 끊기
 ?>
 
-<div id="id01" class="modal" style="display: block">
-  <form class="modal-content animate" action="restaurant_insert.php" method="post" enctype="multipart/form-data">
+<div class="modal" style="display: block">
+  <form class="modal_content animate" action="restaurant_insert.php" method="post" enctype="multipart/form-data">
     <div class="imgcontainer">
       <h1>사장님 가게 등록</h1>
       <hr />

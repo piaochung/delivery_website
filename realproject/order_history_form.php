@@ -23,8 +23,9 @@
             $result = mysqli_query($con, $sql);
             $total_record_order = mysqli_num_rows($result);
 
-            for($i=1; $i <= $total_record_order; $i++){
-                $sql = "select * from orders where order_number='$i' and business_number='$businessnum' order by regist_day desc";
+            for($i=0; $i < $total_record_order; $i++){
+                $num = $i + 1;
+                $sql = "select * from orders where order_number='$num' and business_number='$businessnum' order by regist_day desc";
                 $result = mysqli_query($con, $sql);
                 $row = mysqli_fetch_array($result);
                 $regist_day = $row["regist_day"];
@@ -51,8 +52,9 @@
             $result = mysqli_query($con, $sql);
             $total_record_order = mysqli_num_rows($result);
 
-            for($i=1; $i <= $total_record_order; $i++){
-                $sql = "select * from orders where order_number='$i' and id='$userid' order by regist_day desc";
+            for($i=0; $i < $total_record_order; $i++){
+                $num = $i + 1;
+                $sql = "select * from orders where order_number='$num' and id='$userid' order by regist_day desc";
                 $result = mysqli_query($con, $sql);
                 $row = mysqli_fetch_array($result);
                 $regist_day = $row["regist_day"];

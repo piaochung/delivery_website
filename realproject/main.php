@@ -24,7 +24,7 @@
             echo "
                 <script>
                     alert('회원가입 후 이용 부탁드립니다.');
-                    location.href = 'sign_in_check_form.php';
+                    location.href = 'index.php';
                 </script>
             ";
     }
