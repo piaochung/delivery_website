@@ -10,9 +10,6 @@
 <script>
    function check_input()
    {
-        if(isset($_COOKIE["business_number"])) $business_number = $_COOKIE["business_number"];
-        else $business_number = "";
-
         if(!document.member_form.business_number.value) {
             alert("사업자 번호를 입력하세요!");
             document.member_form.business_number.focus();
@@ -20,7 +17,7 @@
         }
 
         if(document.member_form.business_number.value.length < 10){
-            alert("사업자 번호가 짧다.");
+            alert("사업자 번호가 짧아요.");
             return;
         }
 
@@ -61,7 +58,15 @@
             document.member_form.pass.select();
             return;
         }
+
+        /*
+        if(id != document.member_form.business_number.value){
+            alert("아아디가 이상합니다");
+        }
+        */
+
         document.member_form.submit();
+
    }
 
    function reset_form() {
@@ -75,6 +80,10 @@
       return;
    }
 
+   function duplicate_check(){
+        alert("아이디 중복체크를 해주세요");
+   }
+
    function check_id() {
      window.open("business_sign_up_check_business_number.php?business_number=" + document.member_form.business_number.value,
          "IDcheck",
@@ -84,7 +93,7 @@
 </head>
 <body>
 	<header>
-    	<?php include "header.php";?>
+        <?php include "header.php";?>
     </header>
 	<section>
         <div id="main_content">
@@ -137,7 +146,15 @@
                        <div class="clear"></div>
 			       	<div class="bottom_line"> </div>
 			       	<div class="buttons">
-                       <button type="button" onclick="check_input()">create account</button>
+                        <?php 
+                            if(isset($_COOKIE["business_number"])){
+                                $iname = $_COOKIE['business_number'];
+                                echo "<h4>$iname</h4>";
+                                echo "<button type='button' onclick='check_input()'>create account2</button>";
+                            } else {
+                                echo "<button type='button' onclick='duplicate_check()'>create account</button>";
+                            }
+                        ?>
                        <button type="button" onclick="reset_form()">reset</button>
 	           		</div>
            	</form>

@@ -20,26 +20,21 @@
             echo "<h1>사장님이 눌렀어용</h1>";
 
     $con = mysqli_connect("localhost", "root", "", "project");
-    $sql = "select count(*) from business_order_temp where business_number='$businessnum'";
+    $sql = "select count(*) from business_order where business_number='$businessnum'";
     $result = mysqli_query($con, $sql);
     $row = mysqli_fetch_row($result);
     
     if($row){
+      //전체 주문 개수
       $total_record_order = $row[0];
       $tempnumber = $total_record_order * 3;
 
       for($i=0; $i < $total_record_order; $i++){
-        $sql = "select * from business_order_temp where business_number='$businessnum' and order_number < $tempnumber order by num desc LIMIT 1";
+        $sql = "select * from business_order where business_number='$businessnum' and order_number < $tempnumber order by order_number desc LIMIT 1";
         $result = mysqli_query($con, $sql);
         $row = mysqli_fetch_array($result);
         $tempnumber = $row["order_number"];
 
-        $num = $i + 1;
-        $sql = "select * from business_order_temp where business_number='$businessnum' order by num desc";
-        $result = mysqli_query($con, $sql);
-        $row = mysqli_fetch_array($result);
-        
-        if($row){
           $sql = "select * from orders where business_order_number='$tempnumber' and business_number='$businessnum' order by regist_day desc";
           $result = mysqli_query($con, $sql);
           $row = mysqli_fetch_array($result);
@@ -66,7 +61,6 @@
           ?>
           </form>
           <?php
-      }   
     } 
   }
         }

@@ -13,6 +13,11 @@ h3 {
 }
 </style>
 </head>
+<script>
+   function closebutton() {
+      javascript:self.close();
+   }
+</script>
 <body>
 <h3>사업자 번호 중복체크</h3>
 <p>
@@ -33,7 +38,7 @@ h3 {
 
       $num_record = mysqli_num_rows($result);
 
-      setcookie("business_number", time() - 3600);
+      setcookie("business_number", time()-3600);
       if ($num_record)
       {
          echo "<li>".$business." 사업자 번호가 중복됩니다.</li>";
@@ -51,7 +56,7 @@ h3 {
 ?>
 </p>
 <div id="close">
-   <img src="./img/close.png" onclick="javascript:self.close()">
+   <button onclick="closebutton()">닫기</button>
 </div>
 </body>
 </html>

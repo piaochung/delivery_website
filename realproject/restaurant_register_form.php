@@ -34,7 +34,7 @@
 ?>
 
 <div class="modal" style="display: block">
-  <form class="modal_content animate" action="restaurant_insert.php" method="post" enctype="multipart/form-data">
+  <form class="modal_content animate" action="restaurant_insert.php" method="post" name="regist_form" enctype="multipart/form-data">
     <div class="imgcontainer">
       <h1>사장님 가게 등록</h1>
       <hr />
@@ -52,11 +52,11 @@
       <br />
       <b>최소 주문 금액</b>
       <hr />
-      <input type="text" name="minimum_order_amount"/>
+      <input type="number" name="minimum_order_amount"/>
       <br />
       <b>배달 팁</b>
       <hr />
-      <input type="text" name="delivery_tips"/>
+      <input type="number" name="delivery_tips"/>
       <br />
       <!--메뉴 추가 부분-->
       <div id="addedKeyword"></div>
@@ -66,7 +66,7 @@
 
     <div class="container" style="background-color:#f1f1f1">
       <button type="button" onclick=onCancelButtonClick()>취소하기</button>
-      <button type="submit">등록하기</button>
+      <button type="button" onclick=check_input()>등록하기</button>
     </div>
   </form>
 </div>

@@ -1,96 +1,166 @@
-#include <mega128a.h> 
-#include <delay.h>
-#include <stdio.h>
-//
-#define AM2302 PIND.2
-//
-unsigned int  half_usec,Temp,Humi;
-unsigned char data[5],Temp_sign;
-//
-//
-//[lcd]       [AVR PORTA]
-//RS (pin4) -----  bit 0
-//RD (pin 5) ----- bit 1
-//EN (pin 6) ----- bit 2
-//사용안함         bit 3
-//[lcd]       [AVR PortA]
-//DB4 (pin 11) --- bit 4
-//DB5 (pin 12) --- bit 5
-//DB6 (pin 13) --- bit 6
-//DB7 (pin 14) --- bit 7
-//
-#define lcd_RS  PORTA.0
-#define lcd_E   PORTA.2
-#define lcd_Out PORTA   // PORTA.4~7 4bits
-//
-void lcdData(char d){
-    lcd_RS=1;
-    lcd_Out=(d&0xF0)|1; lcd_E=1; delay_us(1); lcd_E=0; delay_us(1);
-    lcd_Out=(d<<4)|1;   lcd_E=1; delay_us(1); lcd_E=0; delay_us(40);
+//=================================================
+// 코드비젼 128, 16MHz
+//=================================================
+#include  <mega128a.h>
+#include  <delay.h>
+#include  <stdio.h>
+#include  <lcd.h>
+//=================================================
+#asm
+    .equ __lcd_port=0x1B; PORTA
+#endasm
+#include   <math.h>
+//=================================================
+//=================================================
+#define U_C     unsigned char
+#define U_I     unsigned int
+//=================================================
+//=================================================
+// SHT11 H/W, 1:GND, 2:DATA, 3:SHT_SCK, 4:VCC
+#define    DATA_OUT       DDRB.0
+#define    DATA_IN        PINB.0
+#define    SHT_SCK        PORTB.1
+//=================================================
+#define noACK 0
+#define ACK   1
+                            //adr  command  r/w
+#define STATUS_REG_W 0x06   //000   0011    0
+#define STATUS_REG_R 0x07   //000   0011    1
+#define MEASURE_TEMP 0x03   //000   0001    1
+#define MEASURE_HUMI 0x05   //000   0010    1
+#define RESET        0x1e   //000   1111    0
+//=================================================
+const float C1=-4.0;
+const float C2=+0.0405;
+const float C3=-0.0000028;
+const float T1=+0.01;
+const float T2=+0.00008;
+
+U_C     str[30]; //LcdBuf
+U_C     TEMP_cksum, HUMI_cksum;
+U_I     TEMP_val, HUMI_val;
+float   dew_point;
+//=================================================
+// SHT11
+//=================================================
+U_C SHT11_ByteWR(U_C value){
+  U_C i, error=0;
+  for(i=0x80; i>0; i>>=1){
+//    DATA_OUT=(value>>(7-i))&1;
+    if(i&value)DATA_OUT=0;
+    else DATA_OUT=1;
+    delay_us(2); SHT_SCK=1; delay_us(6); SHT_SCK=0; delay_us(3);
+  }
+  DATA_OUT=0; SHT_SCK=1; delay_us(3); error=DATA_IN; delay_us(2); SHT_SCK=0;
+  return error;
 }
-//
-void lcdCmd(char c){
-    lcd_RS=0;
-    lcd_Out=c&0xF0; lcd_E=1; delay_us(1); lcd_E=0; delay_us(1);
-    lcd_Out=c<<4;   lcd_E=1; delay_us(1); lcd_E=0; delay_us(40);
+
+//----//
+U_C SHT11_ByteRD(U_C ack){
+  U_C i, val=0;
+  DATA_OUT=0;
+  for(i=0x80; i>0; i>>=1){ SHT_SCK=1; delay_us(3); if(DATA_IN)val|=i; SHT_SCK=0; delay_us(3); }
+  DATA_OUT=ack;
+  SHT_SCK=1; delay_us(6); SHT_SCK=0; delay_us(3); DATA_OUT=0;
+  return val;
 }
-//
-void lcd_init(void){
-    delay_ms(50);  
-    lcdCmd(0x28); lcdCmd(0x28); lcdCmd(0x28);
-    lcdCmd(0x0C); lcdCmd(0x06); lcdCmd(0x01); delay_ms(2);
+
+//-----//
+void SHT11_Start(void){
+   DATA_OUT=0;
+   SHT_SCK=0;  delay_us(3); SHT_SCK=1; delay_us(3);
+   DATA_OUT=1; delay_us(3);
+   SHT_SCK=0;  delay_us(6); SHT_SCK=1; delay_us(3);
+   DATA_OUT=0; delay_us(3);
+   SHT_SCK=0;
 }
-//
-void lcd_gotoxy(char x, char y){
-    if     (y==0)lcdCmd(0x80+x);
-    else if(y==1)lcdCmd(0xC0+x);
-    else if(y==2)lcdCmd(0x94+x);
-    else if(y==3)lcdCmd(0xD4+x);
+
+//-----//
+void SHT11_Reset(void){ 
+  U_C i;
+  DATA_OUT=0; SHT_SCK=0;  delay_us(3);
+  for(i=0;i<9;i++){ SHT_SCK=1;  delay_us(3); SHT_SCK=0;  delay_us(3); }
+  SHT11_Start();
 }
-//
-void lcd_puts(char *str){ while(*str)lcdData(*str++); }
-//
-void lcd_putsf(char flash *str){ while(*str)lcdData(*str++); }
-//
-void AM2302_rd(void){
-    unsigned char i,k;
-    for(i=0;i<8;i++)data[i]=0; // 변수 초기화
-    //host start signal 
-    DDRD.2=1; delay_ms(1); DDRD.2=0; // 데이터 요구
-    for(k=0;k<5;k++){
-        for(i=0;i<8;i++){
-            data[k]|=0x80>>i; // high구간 48us이상이면 1
-        }
-    }
-    //Parity(check sum)check
-    i=data[0]+data[1]+data[2]+data[3];
-    //data copy
-    Humi=(unsigned int)data[0]*256+data[1];
-    Temp=(unsigned int)data[2]*256+data[3];
-    //Temp 영하 체크
-    if(Temp&0x8000){ Temp_sign=1; Temp&=0x7FFF; } // 영하 
-    else             Temp_sign=0;                 // 영상
-    return;
-AM2302_Error:;
-    Humi=Temp=0; Temp_sign=0;   
+
+//------//
+U_C SHT11_HUMI(void){
+  U_C error=0;
+  long i;
+  error+=SHT11_ByteWR(MEASURE_HUMI);
+  for(i=0; i<400000; i++){ delay_us(5); if(!DATA_IN)break; } // 2초
+  if(DATA_IN)error++;
+  HUMI_val=SHT11_ByteRD(ACK);
+  HUMI_val<<=8;
+  HUMI_val+=SHT11_ByteRD(ACK);
+  HUMI_cksum=SHT11_ByteRD(noACK);
+  return error;
 }
-//        
+
+//------//
+U_C SHT11_TEMP(void){
+  U_C error=0;
+  long i;
+  SHT11_Start();
+  error+=SHT11_ByteWR(MEASURE_TEMP);
+  for(i=0; i<400000; i++){ delay_us(5); if(!DATA_IN)break; } // 2초
+  if(DATA_IN)error++;
+  TEMP_val=SHT11_ByteRD(ACK);
+  TEMP_val<<=8;
+  TEMP_val+=SHT11_ByteRD(ACK);
+  TEMP_cksum=SHT11_ByteRD(noACK);
+  return error;
+}
+
+//------//
+void calc_sth11(void){
+  float rh_lin, rh_true, t_C, TEMP_f, HUMI_f, logEx;
+
+  TEMP_f=(float)TEMP_val;
+  HUMI_f=(float)HUMI_val;
+
+  t_C=TEMP_f*0.01-40;
+  rh_lin=C3*HUMI_f*HUMI_f + C2*HUMI_f + C1;
+  rh_true=(t_C-25)*(T1+T2*HUMI_f)+rh_lin;
+  if(rh_true>100)rh_true=100;
+  if(rh_true<0.1)rh_true=0.1;
+
+  TEMP_val=TEMP_f;
+  HUMI_val=HUMI_f;
+
+  logEx=0.66077+7.5*t_C/(237.3+t_C)+(log10(t_C)-2);
+  dew_point=(logEx-0.66077)*237.3/(0.66077+7.5-logEx);
+}
+//=================================================
+//             main
+//=================================================
 void main(void){
-    unsigned char str[50];
-    DDRA=0xFF; DDRC=0x47;   //Lcd PORT 
-    PORTA.6=1;              //lcd back light on, K128LCD 사용자만
-    lcd_init();
-    lcd_gotoxy(0,0); lcd_putsf("AM2302 test");
-    lcd_gotoxy(0,1); lcd_putsf("Humi & Temp");
-    while(1){
-        delay_ms(500);             // AM2302 데이터 요구 주기
-        AM2302_rd();
-        //lcd display
-        sprintf(str,"Humi=%d.%d%%  ",Humi/10,Humi%10); 
-        lcd_gotoxy(0,0); lcd_puts(str); 
-        //
-        if(Temp_sign)sprintf(str,"Temp=-%d.%d\xdfC  ",Temp/10,Temp%10); 
-        else         sprintf(str,"Temp=%d.%d\xdfC  ",Temp/10,Temp%10);
-        lcd_gotoxy(0,1); lcd_puts(str);
-    }
+  U_C error;
+
+  #asm ("cli")
+  DDRB=0x02; //sht11
+//
+  delay_ms(150);
+  lcd_init(16);
+
+  lcd_clear();
+  sprintf(str, "SHT11 Test Prog."); lcd_gotoxy(0, 1); lcd_puts(str);
+  sprintf(str, "by O.H.Park"); lcd_gotoxy(0, 1); lcd_puts(str);
+  delay_ms(2000); // 2초 동안 표시
+
+//SHT11_Reset();
+  while(1){
+    SHT11_Reset();
+    error=0;
+    error+=SHT11_HUMI();
+    error+=SHT11_TEMP();
+    if(error!=0)SHT11_Reset();
+    else{ calc_sth11(); }
+//
+    lcd_clear();
+    sprintf(str, "SHT11 Test Prog."); lcd_gotoxy(0, 1); lcd_puts(str);
+    sprintf(str,"T=%2d[C] H=%2d[%%]",TEMP_val, HUMI_val);
+    lcd_gotoxy(0, 0); lcd_puts(str);
+    delay_ms(2000);
+  }
 }

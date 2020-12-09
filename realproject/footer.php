@@ -1,9 +1,9 @@
 
     <ul class="sns">
-        <li><a href="#"><img src="./img/main/instagram.png" alt=""></a></li>
-        <li><a href="#"><img src="./img/main/facebook.png" alt=""></a></li>
-        <li><a href="#"><img src="./img/main/youtube.png" alt=""></a></li>
-        <li><a href="#"><img src="./img/main/blog.png" alt=""></a></li>
+        <li><a href="https://www.instagram.com/"><img src="./img/main/instagram.png" alt=""></a></li>
+        <li><a href="https://www.facebook.com/"><img src="./img/main/facebook.png" alt=""></a></li>
+        <li><a href="https://www.youtube.com/"><img src="./img/main/youtube.png" alt=""></a></li>
+        <li><a href="https://hangjastar.tistory.com/"><img src="./img/main/blog.png" alt=""></a></li>
     </ul>
     
     <h2 class="footerLogo">Privacy</h2>
