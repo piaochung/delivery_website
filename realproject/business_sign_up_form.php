@@ -147,13 +147,14 @@
 			       	<div class="bottom_line"> </div>
 			       	<div class="buttons">
                         <?php 
+                        /*
                             if(isset($_COOKIE["business_number"])){
-                                $iname = $_COOKIE['business_number'];
-                                echo "<h4>$iname</h4>";
                                 echo "<button type='button' onclick='check_input()'>create account2</button>";
                             } else {
                                 echo "<button type='button' onclick='duplicate_check()'>create account</button>";
                             }
+                            */
+                            echo "<button type='button' onclick='check_input()'>create account</button>";
                         ?>
                        <button type="button" onclick="reset_form()">reset</button>
 	           		</div>

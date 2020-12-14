@@ -20,15 +20,15 @@
      if($login == "customer"){
        echo("
              <script>
-               window.alert('등록되지 않은 아이디입니다!')
-               history.go(-1)
+               window.alert('등록되지 않은 아이디입니다!');
+               location.href = 'index.php';
              </script>
            ");
      } else {
       echo("
             <script>
-              window.alert('등록되지 않은 사업자 번호입니다!')
-              history.go(-1)
+              window.alert('등록되지 않은 사업자 번호입니다!');
+              location.href = 'index.php';
             </script>
           ");
      }
@@ -44,8 +44,8 @@
         {
            echo("
               <script>
-                window.alert('비밀번호가 틀립니다!')
-                history.go(-1)
+                window.alert('비밀번호가 틀립니다!');
+                location.href = 'index.php';
               </script>
            ");
            exit;

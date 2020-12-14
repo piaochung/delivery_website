@@ -6,9 +6,6 @@
     if (isset($_SESSION["business_number"])) $businessnum = $_SESSION["business_number"];
     else $businessnum = "";
     
-    echo "<h1>$businessnum</h1>";
-    echo "<h1>$userid</h1>";
-
     if (isset($_SESSION["username"])) $username = $_SESSION["username"];
     else $username = "";
 ?>
@@ -52,7 +49,7 @@
                 <?php 
                     }
                 ?>
-                <li><a href="https://github.com/piaochung">github</a></li>
+                <li><a href="https://github.com/piaochung/delivery_website">github</a></li>
                 <li><a href="https://hangjastar.tistory.com/">blog</a></li>
             <!--위에는 테스트입니다.-->
         </ul>
